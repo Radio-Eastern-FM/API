@@ -1,7 +1,8 @@
-const { GraphQLScalarType, Kind } = require('graphql');
+import graphql from "graphql";
+const { Kind, GraphQLScalarType } = graphql;
 
 // https://www.apollographql.com/docs/apollo-server/schema/custom-scalars/#example-the-date-scalar
-const dateScalar = new GraphQLScalarType({
+export default new GraphQLScalarType({
   name: 'Date',
   description: 'Date custom scalar type',
   serialize(value) {
@@ -17,15 +18,3 @@ const dateScalar = new GraphQLScalarType({
     return null; // Invalid hard-coded value (not an integer)
   },
 });
-
-module.exports = {
-  Query: {
-    events: async (_, { id }, { dataSources }) => {
-      return dataSources.events.getEvent(id);
-    },
-    schedules: async (_, { id }, { dataSources }) => {
-      return dataSources.schedules.getSchedule(id);
-    }
-  },
-  Date: dateScalar
-};
