@@ -5,7 +5,9 @@ export const typeDef = gql`
   type Schedule {
     _id: ID
     name: String!
+    isTemplate: Boolean!
     events: [Event]
+    weekStarting: Date
   }
   input SchedulesFilters {
     name: String
@@ -29,6 +31,13 @@ export const resolvers = {
   Mutation: {
     addSchedule: async (_, { name }, { dataSources }) => {
       return dataSources.schedules.addSchedule(name)
+    },
+    setMasterSchedule: async (_, { _id }, { dataSources }) => {
+      return dataSources.schedules.setMasterSchedule(_id)
+    },
+    addEventToSchedule: async (_, { _id, event_id }, { dataSources }) => {
+      const event = dataSources.events.getEvent(event_id);
+      return dataSources.schedules.addEventToSchedule(_id, event)
     }
   }
 };
@@ -37,11 +46,23 @@ export class Schedules extends MongoDataSource {
   async getSchedule(_id) {
     return this.findOneById(_id)
   }
+  
   async getSchedules(filter) {
     let collection = this.collection.find(filter);
     
     return collection.toArray();
   }
+  
+  async addEventToSchedule (_id, event_id) {
+    console.log(event_id);
+    return this.getSchedule(_id);
+  }
+  
+  async setMasterSchedule (_id) {
+    this.collection.update({ _id: { $eq: _id }}, { master: true });
+    return this.getSchedule(_id)
+  }
+  
   async addSchedule (name) {
     // Insert new object
     const response = await this.collection.insertOne({name});
