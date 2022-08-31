@@ -1,14 +1,13 @@
-import graphql from "graphql";
-const { Kind, GraphQLScalarType } = graphql;
+import { Kind, GraphQLScalarType } from "graphql";
 
 // https://www.apollographql.com/docs/apollo-server/schema/custom-scalars/#example-the-date-scalar
 export default new GraphQLScalarType({
   name: 'Date',
   description: 'Date custom scalar type',
-  serialize(value) {
+  serialize(value:any) : number {
     return value.getTime(); // Convert outgoing Date to integer for JSON
   },
-  parseValue(value) {
+  parseValue(value: any): Date|null {
     return new Date(value); // Convert incoming integer to Date
   },
   parseLiteral(ast) {
