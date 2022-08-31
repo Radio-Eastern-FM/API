@@ -2,21 +2,23 @@
   "name": "scheduler-api",
   "version": "0.0.1",
   "description": "",
-  "main": "src/server.mjs",
-  "type": "module",
+  "main": "src/server.ts",
   "scripts": {
-    "start": "node src/server.mjs",
-    "dev": "nodemon src/server.mjs localhost 3080"
+    "start": "node --loader ts-node/esm ./src/server.ts",
+    "dev": "nodemon src/server.ts localhost 4000"
   },
   "dependencies": {
+    "apollo-datasource": "^3.3.2",
     "apollo-datasource-mongodb": "^0.5.4",
     "apollo-server": "^3.8.1",
     "graphql": "^16.5.0",
-    "mongodb": "^4.6.0"
+    "mongodb": "^4.6.0",
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
     "eslint": "^8.18.0",
     "fancy-log": "^1.3.3",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1"
   }
 }
