@@ -2,6 +2,9 @@ import { MongoClient } from 'mongodb'
 import { resolvers, typeDefs } from './graphql/schema'
 import { ProgramDataSource, EventDataSource, SlotDataSource }from './graphql/mongo-data-source'
 import { ApolloServer } from 'apollo-server'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // TODO: Make safe
 const MONGO_USERNAME = "root"
@@ -30,6 +33,6 @@ const server = new ApolloServer({
 });
 
 // Launch server
-server.listen().then(({ url }) => {
+server.listen(process.env.PORT ?? 4000).then(({ url }) => {
   console.log(`Server ready at ${url}`);
 });
