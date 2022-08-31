@@ -50,7 +50,7 @@ export class EventDataSource extends MongoDataSource<EventDocument> {
         "slot.minuteEnd": { $lte: minute },
         "slot.minuteStart": { $gte: minute },
         "slot.day": { $eq: day }
-      }).toArray().then((events) => {
+      }).toArray().then((events:EventDocument[]) => {
         if(events.length == 1) {
           return events[0];
         }
