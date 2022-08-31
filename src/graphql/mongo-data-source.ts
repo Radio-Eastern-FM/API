@@ -103,7 +103,7 @@ export class EventDataSource extends MongoDataSource<EventDocument> {
     if(event.from >= event.to) throw new UserInputError("From date must occur before to date")
     // Fetch and return the new object
     return this.collection.insertOne(event)
-      .then((response) => this.getEvent(response.insertedId.toString()));
+      .then((response: { insertedId: ObjectId }) => this.getEvent(response.insertedId.toString()));
   }
   async deleteEvent(_id: string){  
     return this.collection.deleteOne({ _id: new ObjectId(_id) });
@@ -160,7 +160,7 @@ export class SlotDataSource extends MongoDataSource<SlotDocument> {
     
     // Fetch and return the new object
     return this.collection.insertOne(slot)
-      .then((response) => this.getSlot(response.insertedId));
+      .then((response: { insertedId: ObjectId }) => this.getSlot(response.insertedId));
   }
   
   static validateRange(variable:number, variableName: string, min: number, max: number){
